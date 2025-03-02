@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { useForm, Controller } from "react-hook-form";
@@ -9,23 +9,28 @@ import { useState } from "react";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "../../validationSchemas";
-import { z } from "zod"
+import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
-
-type IssueForm = z.infer<typeof createIssueSchema>
+type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuesPage = () => {
   const router = useRouter();
-  const { register, control, handleSubmit, formState: {errors} } = useForm<IssueForm>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
 
   const sendRequest = async (data: IssueForm) => {
     try {
-       await axios.post("/api/issues", data)
-        router.push("/issues")
-    } catch (error){
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
       setError("Unexected error occured");
     }
   };
@@ -40,9 +45,9 @@ const NewIssuesPage = () => {
       <form className="space-y-3" onSubmit={handleSubmit(sendRequest)}>
         <TextField.Root
           placeholder="Title"
-          {...register("title")}
-          ></TextField.Root>
-          {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+          {...register("title")}>
+          </TextField.Root>
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -50,8 +55,7 @@ const NewIssuesPage = () => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-        {errors.description && <Text color='red' as='p'>{errors.description.message}</Text>}
-
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Submit New Issue</Button>
       </form>
     </div>
