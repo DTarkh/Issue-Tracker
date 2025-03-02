@@ -20,7 +20,7 @@ const NewIssuesPage = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
@@ -31,6 +31,7 @@ const NewIssuesPage = () => {
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
+      console.log(error);
       setError("Unexected error occured");
     }
   });
@@ -56,7 +57,7 @@ const NewIssuesPage = () => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit New Issue</Button>
+        <Button disabled={isSubmitting}>Submit New Issue</Button>
       </form>
     </div>
   );
