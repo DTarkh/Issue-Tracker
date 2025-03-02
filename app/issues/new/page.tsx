@@ -26,14 +26,14 @@ const NewIssuesPage = () => {
   });
   const [error, setError] = useState("");
 
-  const sendRequest = async (data: IssueForm) => {
+  const sendRequest = handleSubmit(async (data: IssueForm) => {
     try {
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
       setError("Unexected error occured");
     }
-  };
+  });
 
   return (
     <div className="max-w-xl">
@@ -42,11 +42,11 @@ const NewIssuesPage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form className="space-y-3" onSubmit={handleSubmit(sendRequest)}>
+      <form className="space-y-3" onSubmit={sendRequest}>
         <TextField.Root
           placeholder="Title"
-          {...register("title")}>
-          </TextField.Root>
+          {...register("title")}
+        ></TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
