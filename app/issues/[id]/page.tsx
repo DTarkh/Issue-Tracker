@@ -1,8 +1,8 @@
 import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import prisma from "@/app/lib/prisma";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
-import React from "react";
+import delay from "delay"
 
 interface Props {
   params: { id: string };
@@ -11,10 +11,12 @@ const IssueDetailPage = async ({ params }: Props) => {
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
-
   if (!issue) notFound();
+
+  await delay(2000)
+
   return (
-    <div>
+    <Box>
       <Heading>{issue.title}</Heading>
       <Flex my="3" gap="2" align="center">
         <IssueStatusBadge status={issue.status} />
@@ -23,7 +25,7 @@ const IssueDetailPage = async ({ params }: Props) => {
       <Card>
         <Text>{issue.description}</Text>
       </Card>
-    </div>
+    </Box>
   );
 };
 
