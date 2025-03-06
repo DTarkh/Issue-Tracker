@@ -2,7 +2,7 @@ import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import prisma from "@/app/lib/prisma";
 import { Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
-import delay from "delay"
+
 
 interface Props {
   params: { id: string };
@@ -13,7 +13,6 @@ const IssueDetailPage = async ({ params }: Props) => {
   });
   if (!issue) notFound();
 
-  await delay(2000)
 
   return (
     <Box>
