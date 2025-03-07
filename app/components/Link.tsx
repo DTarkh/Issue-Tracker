@@ -5,7 +5,7 @@ interface Props {
   href: string;
 }
 const Link = ({ children, href }: Props) => {
-  return <NextLink href={href} className="text-amber-500 font-bold hover:underline">{children}</NextLink>;
+  return <NextLink href={href} className=" hover:underline">{children}</NextLink>;
 };
 
 export default Link;
