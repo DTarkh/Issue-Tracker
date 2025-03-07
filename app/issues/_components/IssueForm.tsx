@@ -12,6 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 import { issueSchema } from "../../validationSchemas";
+import { Spinner } from "@/app/components";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -32,12 +33,10 @@ const IssueForm = ({ issue }: Props) => {
 
   const sendRequest = handleSubmit(async (data: IssueFormData) => {
     try {
-      if (issue)
-        await axios.patch("/api/issues/" + issue.id, data);
-      else
-        await axios.post("/api/issues", data);
+      if (issue) await axios.patch("/api/issues/" + issue.id, data);
+      else await axios.post("/api/issues", data);
       router.push("/issues");
-      router.refresh()
+      router.refresh();
     } catch (error) {
       console.log(error);
       setError("Unexected error occured");
@@ -67,7 +66,10 @@ const IssueForm = ({ issue }: Props) => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={isSubmitting}>{issue ? "Update Issue" : "Submit New Issue"}</Button>
+        <Button disabled={isSubmitting}>
+          {issue ? "Update Issue" : "Submit New Issue"}
+          {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
