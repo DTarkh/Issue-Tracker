@@ -8,7 +8,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     <AlertDialog.Root>
       <AlertDialog.Trigger>
         <Button color="red">
-          {/* <Link href={`/api/issue/delete/${issueId}`}>Delete Issue</Link> */}
+          Delete Issue
         </Button>
       </AlertDialog.Trigger>
       <AlertDialog.Content>
@@ -25,7 +25,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
           </AlertDialog.Cancel>
           <AlertDialog.Action>
             <Button variant="solid" color="red">
-              <Link href={`/api/issue/delete/${issueId}`}>Delete Issue</Link>
+              <Link href={`/api/issue/${issueId}`}>Delete Issue</Link>
             </Button>
           </AlertDialog.Action>
         </Flex>
