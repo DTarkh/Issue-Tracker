@@ -1,6 +1,13 @@
 import prisma from "@/app/lib/prisma";
-import IssueForm from "../../_components/IssueForm";
+
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+import IssueFormSkeleton from "./loading";
+
+const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
+  ssr: false,
+  loading: () => <IssueFormSkeleton />,
+});
 
 interface Props {
   params: { id: string };
@@ -10,9 +17,9 @@ const IssueEditPage = async ({ params }: Props) => {
     where: { id: parseInt(params.id) },
   });
 
-  if(!issue) notFound()
+  if (!issue) notFound();
 
-  return <IssueForm issue={issue}/>;
+  return <IssueForm issue={issue} />;
 };
 
 export default IssueEditPage;
