@@ -1,20 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { FaBug } from "react-icons/fa";
+import { Avatar, Box, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  DropdownMenu,
-  Flex,
-  Text,
-} from "@radix-ui/themes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FaBug } from "react-icons/fa";
 
 const NavBar = () => {
   const currentPath = usePathname();
