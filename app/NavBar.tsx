@@ -6,11 +6,20 @@ import React from "react";
 import { FaBug } from "react-icons/fa";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
   const { data, status: session } = useSession();
+  console.log(data);
 
   const Links = [
     { label: "Dashboard", href: "/" },
@@ -42,11 +51,23 @@ const NavBar = () => {
             </ul>
           </Flex>
           <Box>
+            {session === "authenticated" && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                    <Avatar src={data.user!.image!} fallback="A" size="2" radius="full"/>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text>{data.user!.email}</Text>
+                  </DropdownMenu.Label>
+                    <DropdownMenu.Item>
+                    <Link href="/api/auth/signout">Sign-out</Link>
+                    </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
             {session === "unauthenticated" && (
               <Link href="/api/auth/signin">Sign-in</Link>
-            )}
-            {session === "authenticated" && (
-              <Link href="/api/auth/signout">Sign-out</Link>
             )}
           </Box>
         </Flex>
