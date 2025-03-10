@@ -5,6 +5,7 @@ import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 import DeleteIssueButton from "./DeleteIssueButton";
 import { auth } from "@/auth"
+import SelectUser from "./Select";
 
 interface Props {
   params: { id: string };
@@ -24,6 +25,7 @@ const IssueDetailPage = async ({ params }: Props) => {
       <Box className="col-span-1">
         {session &&
         <Flex direction="column" gap="4">
+          <SelectUser />
           <EditIssueButton issueId={issue.id} />
           <DeleteIssueButton issueId={issue.id} />
         </Flex>
