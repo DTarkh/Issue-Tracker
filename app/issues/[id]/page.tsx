@@ -5,7 +5,7 @@ import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 import DeleteIssueButton from "./DeleteIssueButton";
 import { auth } from "@/auth"
-import SelectUser from "./Select";
+import SelectUser from "./SelectUser";
 
 interface Props {
   params: { id: string };
