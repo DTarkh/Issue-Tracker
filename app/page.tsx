@@ -1,10 +1,5 @@
-import SignIn from "./components/sign-in";
-
+import { Pagination } from "./components";
 
 export default function Home() {
-  return (
-    <div>
-     <SignIn/>
-    </div>
-  );
+  return <Pagination itemsNumber={7} currentPage={2} itemsPerPage={6} />;
 }
