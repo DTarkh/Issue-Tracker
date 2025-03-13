@@ -72,12 +72,14 @@ const AuthStatus = () => {
     <Box>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
+          <Box>
           <Avatar
             src={data!.user!.image!}
             fallback="A"
             size="2"
             radius="full"
           />
+          </Box>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>
