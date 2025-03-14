@@ -1,4 +1,4 @@
-import { IssueStatusBadge, Link } from "@/app/components";
+import { IssueStatusBadge, Link, Pagination } from "@/app/components";
 import { Table } from "@radix-ui/themes";
 import prisma from "@/app/lib/prisma";
 import IssueActions from "./IssueActions";
@@ -12,7 +12,7 @@ const columns: { label: string; value: keyof Issue; className?: string }[] = [
 ];
 
 interface Props {
-  searchParams: { status: Status, orderBy: keyof Issue };
+  searchParams: { status: Status; orderBy: keyof Issue; page: string };
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -20,13 +20,25 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
+  const where = { status };
 
-  const orderBy = columns.map((column) => column.value).includes(searchParams.orderBy) ? {[searchParams.orderBy]:"asc"} : undefined
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
+    : undefined;
+
+  const page = parseInt(searchParams.page) || 1;
+  const itemsPerPage = 10;
 
   const issues = await prisma.issue.findMany({
-    where: { status },
-    orderBy
+    where,
+    orderBy,
+    skip: (page - 1) * itemsPerPage,
+    take: itemsPerPage,
   });
+
+  const issueCount = await prisma.issue.count({ where });
 
   return (
     <div>
@@ -35,9 +47,18 @@ const IssuesPage = async ({ searchParams }: Props) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column) => (
-              <Table.ColumnHeaderCell key={column.value} className={column.className}>
-                <Link href={{ query: {...searchParams, orderBy: column.value}}}>{column.label}</Link>
-                {column.value === searchParams.orderBy && <ArrowUpIcon className="inline"/>}
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.className}
+              >
+                <Link
+                  href={{ query: { ...searchParams, orderBy: column.value } }}
+                >
+                  {column.label}
+                </Link>
+                {column.value === searchParams.orderBy && (
+                  <ArrowUpIcon className="inline" />
+                )}
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
@@ -63,6 +84,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination itemsNumber={issueCount} itemsPerPage={itemsPerPage} currentPage={page}/>
     </div>
   );
 };
