@@ -1,5 +1,6 @@
 import { prisma } from "@/prisma";
 import IssueSummary from "./IssueSummary";
+import IssueChart from "./IssueChart";
 
 export default async function Home() {
   const open = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -8,5 +9,6 @@ export default async function Home() {
     where: { status: "IN_PROGRESS" },
   });
 
-  return <IssueSummary open={open} closed={closed} inProgress={inProgress} />;
+  return <IssueChart open={open} closed={closed} inProgress={inProgress} />;
+  // ...rest of the page
 }
