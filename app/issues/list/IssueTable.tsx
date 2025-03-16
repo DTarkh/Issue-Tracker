@@ -7,6 +7,7 @@ export interface IssuesQuery {
   status: Status;
   orderBy: keyof Issue;
   page: string;
+  itemsPerPage: string
 }
 
 interface Props {
