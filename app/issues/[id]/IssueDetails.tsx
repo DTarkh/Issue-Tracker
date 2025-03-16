@@ -7,7 +7,7 @@ const IssueDetails = ({ issue }: { issue: Issue }) => {
   return (
     <>
       <Heading>{issue.title}</Heading>
-      <Flex my="3" gap="2" align="center" justify="between">
+      <Flex my="3" gap="2" align="center">
         <IssueStatusBadge status={issue.status} />
         <Text>{issue.createdAt.toDateString()}</Text>
       </Flex>
