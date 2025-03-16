@@ -31,12 +31,15 @@ export async function PATCH(
   if (!requestedIssue)
     return NextResponse.json({ error: "invalid issue" }, { status: 404 });
 
+
+  const newStatus = body.assignedUserId ? "IN_PROGRESS" : "OPEN";
   const updatedIssue = await prisma.issue.update({
     where: { id: requestedIssue.id },
     data: {
       title: body.title,
       description: body.description,
-      assignedUserId: body.assignedUserId
+      assignedUserId: body.assignedUserId,
+      status: newStatus,
     },
   });
 

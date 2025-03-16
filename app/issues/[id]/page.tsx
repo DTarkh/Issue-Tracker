@@ -38,6 +38,11 @@ const IssueDetailPage = async ({ params }: Props) => {
     </Grid>
   );
 };
+
+
+
+
+
 export async function generateMetadata({ params }: Props) {
   const issue = await fetchUser(parseInt(params.id));
 

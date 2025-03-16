@@ -5,21 +5,32 @@ import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 const SelectUser = ({ issue }: { issue: Issue }) => {
+  const router = useRouter();
   const { data: users, error, isLoading } = useUsers();
   if (isLoading) return <Skeleton className="h-[35px]" />;
   if (error) return null;
 
-  const selectUser = (userId: string) =>
-    axios
-      .patch("/api/issues/" + issue.id, {
+  const selectUser = async (userId: string) => {
+    try {
+      await axios.patch(`/api/issues/${issue.id}`, {
         assignedUserId: userId === "empty" ? null : userId,
-      })
-      .catch(() => {
-        toast.error("Failed to assign user");
       });
+
+      if (userId === "empty") {
+        toast.success("User unassigned successfully");
+      } else {
+        toast.success("User assigned successfully");
+      }
+
+      router.refresh();
+    } catch {
+      toast.error("Failed to assign user");
+    }
+  };
 
   return (
     <>
