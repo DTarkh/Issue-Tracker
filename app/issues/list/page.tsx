@@ -22,7 +22,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
     : undefined;
 
   const page = parseInt(searchParams.page) || 1;
-  const itemsPerPage = parseInt(searchParams.itemsPerPage) || 5
+  const itemsPerPage = parseInt(searchParams.itemsPerPage) || 5;
 
   const issues = await prisma.issue.findMany({
     where,
@@ -36,7 +36,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
   return (
     <Flex direction="column" gap="3">
       <IssueActions />
+
       <IssueTable searchParams={searchParams} issues={issues} />
+
       <Pagination
         itemsNumber={issueCount}
         itemsPerPage={itemsPerPage}
@@ -47,7 +49,6 @@ const IssuesPage = async ({ searchParams }: Props) => {
 };
 
 export default IssuesPage;
-
 
 export const metadata: Metadata = {
   title: "Issue Tracker - Issue List",
